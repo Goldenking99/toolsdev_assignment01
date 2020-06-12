@@ -5,6 +5,7 @@ import nltk
 import newspaper
 import webbrowser
 
+
 #Get the news sources
 cnn_paper = 'http://cnn.com'
 fox_paper = 'http://foxnews.com'
@@ -18,7 +19,7 @@ save_txt = 'news_summary.txt'
 
 #Functions to aid scraping
 def crawl(source):
-    source_paper = newspaper.build(source, memoize_articles=False)
+    source_paper = newspaper.build(source, fetch_images = False, memoize_articles = False)
     print("scrape size: " + str(source_paper.size()))
     for article in source_paper.articles:
             collected_articles.append(article)
@@ -50,18 +51,18 @@ for article in keyworded_articles:
 		    continue
 
 
-#Format text doc
-write.write('\n' + str(article.title))
-write.write(' - ')
+	#Format text doc
+	write.write('\n' + str(article.title))
+	write.write(' - ')
 
-for author in article.authors:
+	for author in article.authors:
 	    if author != article.authors[0]:
 	    	    writer.write(', ')
 
 	    write.write(str(author))
 
-article.nlp()
-write.write('\n' + article.summary + '\n')
+	article.nlp()
+	write.write('\n' + article.summary + '\n')
 
 write.close()
 
@@ -69,6 +70,6 @@ write.close()
 web_open = input('Open all ' + str(len(keyworded_articles)) + ' on web?\n [Y] Yes; [N] No; ')
 
 if web_open.lower() in ('y'):
-    webbrowser.open(collected_articles[0].url, new=1, autoraise=True)
+    webbrowser.open(keyworded_articles[0].url, new=1, autoraise=True)
     for num in range(1, len(keyworded_articles)-1):
-        webbrowser.open(collected_articles[num].url, new=2)
+    	    webbrowser.open(keyworded_articles[num].url, new=2)
